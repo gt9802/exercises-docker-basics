@@ -110,7 +110,12 @@ wait "$RUN_PID" 2>/dev/null
 OUTPUT="$(cat "$OUTPUT_FILE")"
 
 echo "$OUTPUT" | grep -q "Input website:" \
-  || fail "container output did not contain the \"Input website:\" prompt"
+  || { 
+       echo "--- ACTUAL CONTAINER OUTPUT ---"
+       echo "$OUTPUT"
+       echo "-------------------------------"
+       fail "container output did not contain the \"Input website:\" prompt"
+     }
 pass "container prompts for a website"
 
 echo "$OUTPUT" | grep -q "Searching.." \
